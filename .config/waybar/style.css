@@ -1,0 +1,102 @@
+@import "colors.css";
+
+* {
+  /* `otf-font-awesome` is required to be installed for icons */
+  font-family: JetBrainsMono Nerd Font Propo;
+  font-size: 20px;
+}
+
+window#waybar {
+  background: alpha(@background, 0.8);
+  color: @secondary;
+}
+
+#workspaces button {
+  padding: 3px;
+  margin: 7px 0px 7px 7px;
+  background: transparent;
+  border-radius: 2px;
+  color: @foreground;
+}
+
+#workspaces button.active {
+  background: @primary;
+  color: @on_secondary;
+  font-weight: 700;
+}
+
+#submap,
+#battery,
+#bluetooth,
+#network,
+#cpu,
+#memory,
+#volume {
+  border-radius: 8px;
+  padding: 5px 8px;
+  margin: 5px 10px 5px 0px;
+}
+
+#submap,
+#workspaces button.urgent {
+  background: @error;
+  color: @on_error;
+}
+
+#pulseaudio-slider {
+  padding: 0px;
+  margin: 0px;
+  margin-left: 8px;
+}
+
+#pulseaudio-slider slider {
+  all: unset;
+  min-height: 0;
+  min-width: 0;
+  opacity: 0;
+  background-image: none;
+  border: none;
+  box-shadow: none;
+}
+
+#pulseaudio-slider trough {
+  min-height: 8px;
+  min-width: 75px;
+  border-radius: 5px;
+  background: @on_primary;
+}
+
+#pulseaudio-slider highlight {
+  min-width: 10px;
+  border-radius: 5px;
+  background: @primary;
+}
+
+#media {
+  color: @primary;
+  margin: 7px 0px 7px 80px;
+}
+
+#custom-media-animation {
+  font-size: 13px;
+  margin-right: 10px;
+}
+
+#custom-media-now-playing {
+  margin-right: 10px;
+}
+
+#custom-media-time {
+  color: @secondary;
+  font-size: 14px;
+}
+
+tooltip {
+  background: @surface;
+  border-radius: 5px;
+  border: 1px solid @outline;
+}
+
+tooltip label {
+  color: @secondary;
+}
