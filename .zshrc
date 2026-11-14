@@ -6,6 +6,47 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 
+export FZF_DEFAULT_OPTS='
+  --color=dark
+  --color=fg:-1,bg:-1,hl:#586e75,fg+:#839496,bg+:#073642,hl+:#719e07
+  --color=info:#b58900,prompt:#268bd2,pointer:#719e07,marker:#719e07,spinner:#b58900
+'
+# FZF configs
+eval "$(fzf --zsh)"
+
+# -- use fd instead of fzf --
+export FZF_DEFAULT_COMMAND="fd --hidden --no-ignore --strip-cwd-prefix --exclude .git"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type=d --hidden --no-ignore --strip-cwd-prefix --exclude .git"
+_fzf_compgen_path() {
+  fd --hidden --no-ignore --exclude .git . "$1"
+}
+
+_fzf_compgen_dir() {
+  fd --type=d --hidden --no-ignore --exclude .git . "$1"
+}
+
+FZF_GIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/fzf-git.sh"
+[ ! -d $FZF_GIT_HOME ] && mkdir -p "$(dirname $FZF_GIT_HOME)"
+[ ! -d $FZF_GIT_HOME/.git ] && git clone https://github.com/junegunn/fzf-git.sh.git "$FZF_GIT_HOME"
+source "${FZF_GIT_HOME}/fzf-git.sh"
+
+export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always {}'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {}'"
+
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    cd) fzf --preview 'eza --tree --color=always {}' "$@" ;;
+    export|unset) fzf --preview "eval 'echo \$' {}" "$@" ;;
+    ssh) fzf --preview 'dig {}' "$@" ;;
+    *) fzf --preview "--preview 'bat -n --color=always {}'" "$@" ;;
+  esac
+}
+# End fzf config
+
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 [ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
 [ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
@@ -39,17 +80,11 @@ setopt hist_ignore_dups
 setopt hist_find_no_dups
 
 bindkey -e
+
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-export FZF_DEFAULT_OPTS='
-  --color=dark
-  --color=fg:-1,bg:-1,hl:#586e75,fg+:#839496,bg+:#073642,hl+:#719e07
-  --color=info:#b58900,prompt:#268bd2,pointer:#719e07,marker:#719e07,spinner:#b58900
-'
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -l --icons --octal-permissions $realpath' # alias
-alias ls='ls --color'
-#Shell integration
-eval "$(fzf --zsh)"
+zstyle ':fzf-tab:*' fzf-command fzf
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -laH --icons --color=always --tree --no-permissions --no-user --no-time --no-filesize $realpath'
 # End of lines configured by zsh-newuser-install
 export PATH="$HOME/.local/bin:$PATH"
 
@@ -72,5 +107,9 @@ autoload -Uz _zinit
 
 
 source /usr/share/nvm/init-nvm.sh
+# zoxide config
+eval "$(zoxide init zsh)"
 
 alias dotfiles='/usr/sbin/git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME"'
+alias ls="eza --color=always -laH --git --icons=always"
+alias cd="z"

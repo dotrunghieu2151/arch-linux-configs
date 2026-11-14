@@ -302,13 +302,18 @@ hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd(menuLauncher))
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd(menuPower))
 hl.bind(secondMod .. " + Space", hl.dsp.exec_cmd(menuRunner))
 hl.bind(secondMod .. " + E", hl.dsp.exec_cmd(menuEmoji))
-hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit")) -- dwindle only
+hl.bind(secondMod .. " + J", hl.dsp.layout("togglesplit")) -- dwindle only
 
 -- Move focus with mainMod + arrow keys
 hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }))
+
+hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "right" }))
+hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left" }))
+hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "up" }))
+hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "down" }))
 
 hl.bind(secondMod .. " + left", hl.dsp.window.move({ direction = "left" }))
 hl.bind(secondMod .. " + right", hl.dsp.window.move({ direction = "right" }))

@@ -39,3 +39,4 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.conceallevel = 0
 	end,
 })
+opt.confirm = true
