@@ -1,0 +1,286 @@
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "http://127.0.0.1:8787/w/claude",
+    "_CLAUDE_CODE_ASSUME_FIRST_PARTY_BASE_URL": "1",
+    "ENABLE_TOOL_SEARCH": "true"
+  },
+  "permissions": {
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(./secrets/**)"
+    ],
+    "defaultMode": "bypassPermissions"
+  },
+  "model": "opus",
+  "skillOverrides": {
+    "marketing:brand-review": "off",
+    "marketing:campaign-plan": "off",
+    "marketing:competitive-brief": "off",
+    "marketing:content-creation": "off",
+    "marketing:draft-content": "off",
+    "marketing:email-sequence": "off",
+    "marketing:performance-report": "off",
+    "marketing:seo-audit": "off",
+    "product-management:brainstorm": "off",
+    "product-management:competitive-brief": "off",
+    "product-management:metrics-review": "off",
+    "product-management:product-brainstorming": "off",
+    "product-management:roadmap-update": "off",
+    "product-management:sprint-planning": "off",
+    "product-management:stakeholder-update": "off",
+    "product-management:synthesize-research": "off",
+    "product-management:write-spec": "off",
+    "productivity:memory-management": "off",
+    "productivity:start": "off",
+    "productivity:task-management": "off",
+    "productivity:update": "off",
+    "enterprise-search:digest": "off",
+    "enterprise-search:knowledge-synthesis": "off",
+    "enterprise-search:search": "off",
+    "enterprise-search:search-strategy": "off",
+    "enterprise-search:source-management": "off"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/hieudo/.claude/hooks/tool-tracker.sh",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/hieudo/.claude/hooks/validate-bash.sh"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/home/hieudo/.caveman/bin/caveman-proxy' native-hook claude --adapter '/home/hieudo/.nvm/versions/node/v24.22.0/lib/node_modules/@caveman-ai/cli/dist/native-hook-fast.js' --node '/home/hieudo/.nvm/versions/node/v24.22.0/bin/node'",
+            "timeout": 30
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/home/hieudo/.nvm/versions/node/v24.22.0/bin/node' '/home/hieudo/.nvm/versions/node/v24.22.0/bin/caveman' shrink-hook",
+            "timeout": 30
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/hieudo/.local/share/caveman-blocks/bin/caveman-blocks hook --harness claude",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/hieudo/.claude/hooks/tool-tracker.sh",
+            "async": true
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/home/hieudo/.caveman/bin/caveman-proxy' native-hook claude --adapter '/home/hieudo/.nvm/versions/node/v24.22.0/lib/node_modules/@caveman-ai/cli/dist/native-hook-fast.js' --node '/home/hieudo/.nvm/versions/node/v24.22.0/bin/node'",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/hieudo/.claude/hooks/tool-tracker.sh",
+            "async": true
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/home/hieudo/.caveman/bin/caveman-proxy' native-hook claude --adapter '/home/hieudo/.nvm/versions/node/v24.22.0/lib/node_modules/@caveman-ai/cli/dist/native-hook-fast.js' --node '/home/hieudo/.nvm/versions/node/v24.22.0/bin/node'",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/hieudo/.claude/hooks/tool-tracker.sh",
+            "async": true
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/home/hieudo/.caveman/bin/caveman-proxy' native-hook claude --adapter '/home/hieudo/.nvm/versions/node/v24.22.0/lib/node_modules/@caveman-ai/cli/dist/native-hook-fast.js' --node '/home/hieudo/.nvm/versions/node/v24.22.0/bin/node'",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/hieudo/.claude/hooks/tool-tracker.sh",
+            "async": true
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/home/hieudo/.caveman/bin/caveman-proxy' native-hook claude --adapter '/home/hieudo/.nvm/versions/node/v24.22.0/lib/node_modules/@caveman-ai/cli/dist/native-hook-fast.js' --node '/home/hieudo/.nvm/versions/node/v24.22.0/bin/node'",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/hieudo/.claude/hooks/tool-tracker.sh",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/home/hieudo/.caveman/bin/caveman-proxy' native-hook claude --adapter '/home/hieudo/.nvm/versions/node/v24.22.0/lib/node_modules/@caveman-ai/cli/dist/native-hook-fast.js' --node '/home/hieudo/.nvm/versions/node/v24.22.0/bin/node'",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/home/hieudo/.caveman/bin/caveman-proxy' native-hook claude --adapter '/home/hieudo/.nvm/versions/node/v24.22.0/lib/node_modules/@caveman-ai/cli/dist/native-hook-fast.js' --node '/home/hieudo/.nvm/versions/node/v24.22.0/bin/node'",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/home/hieudo/.caveman/bin/caveman-proxy' native-hook claude --adapter '/home/hieudo/.nvm/versions/node/v24.22.0/lib/node_modules/@caveman-ai/cli/dist/native-hook-fast.js' --node '/home/hieudo/.nvm/versions/node/v24.22.0/bin/node'",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/home/hieudo/.caveman/bin/caveman-proxy' native-hook claude --adapter '/home/hieudo/.nvm/versions/node/v24.22.0/lib/node_modules/@caveman-ai/cli/dist/native-hook-fast.js' --node '/home/hieudo/.nvm/versions/node/v24.22.0/bin/node'",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/home/hieudo/.caveman/bin/caveman-proxy' native-hook claude --adapter '/home/hieudo/.nvm/versions/node/v24.22.0/lib/node_modules/@caveman-ai/cli/dist/native-hook-fast.js' --node '/home/hieudo/.nvm/versions/node/v24.22.0/bin/node'",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  },
+  "worktree": {
+    "baseRef": "fresh"
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "/home/hieudo/.claude/statusline.sh",
+    "padding": 0,
+    "refreshInterval": 1
+  },
+  "enabledPlugins": {
+    "caveman@caveman": true,
+    "andrej-karpathy-skills@karpathy-skills": true
+  },
+  "extraKnownMarketplaces": {
+    "caveman": {
+      "source": {
+        "source": "github",
+        "repo": "JuliusBrussee/caveman"
+      }
+    },
+    "karpathy-skills": {
+      "source": {
+        "source": "github",
+        "repo": "forrestchang/andrej-karpathy-skills"
+      }
+    }
+  },
+  "feedbackDrafts": "off",
+  "modelSettings": {
+    "claude-opus-5-5": {
+      "effortLevel": "medium"
+    }
+  },
+  "promptSuggestionEnabled": false,
+  "awaySummaryEnabled": false,
+  "pluginConfigs": {
+    "cc-plugin-agents-md@builtin": {
+      "options": {
+        "instructionFiles": "claude-md-or-agents-md"
+      }
+    }
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "auto",
+  "autoCompactEnabled": true
+}
