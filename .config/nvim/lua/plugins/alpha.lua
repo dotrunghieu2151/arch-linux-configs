@@ -8,7 +8,7 @@ return {
     local ansi = require("ansi")
     ansi.enable()
    local terminalWidth = vim.api.nvim_win_get_width(0)
-   local image_folder_path = os.getenv("HOME") .. "/Pictures/NvimWallpapers"
+   local image_folder_path = vim.uv.os_homedir() .. "/Pictures/NvimWallpapers"
    local motivationalQuote = vim.fn.system("motivate 0 8 8 3 8 8")
    motivationalQuote = motivationalQuote:gsub("\27%[[0-9;]*m", "")
    motivationalQuote = motivationalQuote:gsub("%s+$", "")
